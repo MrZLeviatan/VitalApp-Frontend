@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "/dist/VitalApp-Frontend/browser",
+    "public": "dist/VitalApp-Frontend/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
