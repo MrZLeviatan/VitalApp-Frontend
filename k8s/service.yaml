@@ -1,0 +1,17 @@
+# # Kubernetes Service para el frontend VitalApp
+
+apiVersion: v1 # Version de la API de Kubernetes
+kind: Service # Tipo de recurso: Service
+metadata:
+  name: vitalapp-frontend-svc # Nombre del Service
+  labels:
+    app: vitalapp-frontend # Etiqueta para identificar el Service
+spec:
+  selector:
+    app: vitalapp-frontend # Selector para identificar los pods gestionados por este Service
+  ports:
+    - protocol: TCP # Protocolo de comunicación
+      port: 80 # Puerto expuesto por el Service
+      targetPort: 80 # Puerto en el contenedor al que se redirige el tráfico
+  type: ClusterIP # Tipo de Service
+  # Usamos ClusterIP porque KinD no crea LoadBalancer externos.

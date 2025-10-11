@@ -1,0 +1,35 @@
+# Kubernetes Deployment para el frontend VitalApp
+
+apiVersion: apps/v1 # Version de la API de Kubernetes
+kind: Deployment # Tipo de recurso: Deployment
+metadata:
+  name: vitalapp-frontend # Nombre del Deployment
+  labels:
+    app: vitalapp-frontend # Etiqueta para identificar el Deployment
+spec:
+  replicas: 1 # Número de réplicas del pod
+  selector: # Selector para identificar los pods gestionados por este Deployment
+    matchLabels:
+      app: vitalapp-frontend # Etiqueta que deben tener los pods
+  template:
+    metadata:
+      labels:
+        app: vitalapp-frontend
+    spec:
+      containers:
+        - name: vitalapp-frontend
+          image: IMAGE_PLACEHOLDER
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 10

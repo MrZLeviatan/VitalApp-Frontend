@@ -1,0 +1,7 @@
+services:
+  vitalapp-frontend:
+    image: IMAGE_TAG_PLACEHOLDER # Será remplazada por la imagen construida en el CI/CD
+    container_name: vitalapp-frontend
+    ports:
+      - '4200:80'
+    restart: unless-stopped # Reiniciar el contenedor a menos que se haya detenido manualmente

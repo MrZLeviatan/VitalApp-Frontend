@@ -1,0 +1,207 @@
+# Este es el nombre de nuestro pipeline. Se verás en la pestaña "Actions" de GitHub.
+name: CI/CD Pipeline - VitalApp Frontend
+
+permissions:
+  contents: write
+
+# Este bloque define cuándo se ejecuta el pipeline.
+# Se activa cada vez que se hace 'push' o 'pull request' hacia la rama master.
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+# Define el sistema operativo donde se ejecuta los pasos del pipeline.
+# GitHub crea un entorno temporal basado en Ubuntu cada vez que se ejecuta este workflow.
+jobs:
+  ## CI: Continua Integración - Construcción y pruebas
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Clonar el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      # Esta acciön clona el código del repositorio en el entorno temporal.
+      # Sin esto, no tendríamos acceso al código fuente para construir y probar.
+
+      # 2. Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # Esta acción instala Node.js en la versión especificada (20 en este caso)
+
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: npm install
+      # El comando 'npm install' instala todas las dependencias listadas en package.json.
+
+      # 4. Ejecutar pruebas
+      - name: Run unit tests
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
+
+      # 4.1 Analizar código con SonarCloud
+      - name: Analyze code with SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          SONAR_ORG: ${{ secrets.SONAR_ORG }}
+        run: |
+          npm install -g sonar-scanner
+          sonar-scanner \
+            -Dsonar.organization=$SONAR_ORG \
+            -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+            -Dsonar.sources=src \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN
+
+      # 5. Construir Angular
+      - name: Build Angular app
+        run: npm run build --prod
+
+  ## CD: Continua Despliegue - Construcción y despliegue de la imagen Docker
+
+  build_and_publish_image:
+    runs-on: ubuntu-latest
+    needs: build_and_test # Esta tarea depende de que la anterior (build_and_test) haya finalizado con éxito.
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set IMAGE_TAG
+        run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
+      # Esta línea crea una variable de entorno IMAGE_TAG con el valor del SHA del commit actual.
+
+      #Paso 7. Iniciar Sesión en DockerHub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      # Esta acción inicia sesión en Docker Hub usando las credenciales almacenadas en los secretos del repositorio.
+
+      # Paso 8. Construir y subir la imagen Docker a DockerHub
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/vitalapp-frontend:${{ env.IMAGE_TAG }}
+            ${{ secrets.DOCKER_HUB_USERNAME }}/vitalapp-frontend:latest
+
+      # Paso 9. Guardar la referencia de la imagen en un archivo para usarla en el siguiente pipeline
+      - name: Export image reference
+        run: |
+          IMAGE_REF="${{ secrets.DOCKER_HUB_USERNAME }}/vitalapp-frontend:${{ env.IMAGE_TAG }}"
+          echo "$IMAGE_REF" > image_ref.txt
+        shell: bash
+
+      # Paso 10. Subir el archivo con la referencia de la imagen como artefacto del pipeline
+      - name: Upload IMAGE_REF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: image_ref
+          path: image_ref.txt
+
+  # Despliegue con KinD ( Kubernetes in Docker )
+  deploy_with_kind:
+    runs-on: ubuntu-latest
+    needs: build_and_publish_image
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup KinD
+        uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: v0.17.0
+      # Esta acción instala y configura KinD en el entorno temporal.
+
+      - name: Verify cluster
+        run: |
+          kubectl get nodes
+          kubectl cluster-info
+      # Estos comandos verifican que el clúster de KinD esté funcionando correctamente.
+      - name: Download IMAGE_REF artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: image_ref
+      # Esta acción descarga el artefacto creado en el paso anterior, que contiene la referencia de la imagen Docker.
+
+      - name: Load IMAGE_REF value
+        run: |
+          IMAGE_REF=$(cat image_ref.txt)
+          echo "IMAGE_REF=$IMAGE_REF" >> $GITHUB_ENV
+      # Esta línea lee el contenido del archivo descargado y lo guarda en una variable de entorno IMAGE_REF.
+      - name: Pull and load image
+        run: |
+          docker pull $IMAGE_REF
+          kind load docker-image $IMAGE_REF --name kind
+      # Estos comandos descargan la imagen Docker desde Docker Hub y la cargan en el clúster de KinD.
+      - name: Apply Kubernetes manifests
+        run: |
+          cp -r k8s k8s_ci
+          sed -i "s|IMAGE_PLACEHOLDER|${IMAGE_REF}|g" k8s_ci/deployment.yaml
+          kubectl apply -f k8s_ci/
+          kubectl rollout status deployment/vitalapp-frontend --timeout=300s
+      # Estos comandos copian los manifiestos de Kubernetes, reemplazan el marcador de posición de la imagen con la referencia real y aplican los manifiestos al clúster.
+      # Finalmente, esperan a que el despliegue se complete exitosamente.
+
+  # Despliegue con Firebase Hosting
+  deploy_to_firebase:
+    name: deploy Frontend to Firebase Hosting
+    runs-on: ubuntu-latest
+    needs: deploy_with_kind # Depende del build exitoso
+
+    steps:
+      # Clonar el repositorio
+      - name: Checkout repository / Clonar el repositorio
+        uses: actions/checkout@v4
+
+      # Configurar Node.js
+      - name: Setup Node.js / Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Instalar dependencias
+      - name: Install dependencies / Instalar dependencias
+        run: npm ci
+
+      # Construir el proyecto Angular
+      - name: Build Angular app / Construir la aplicación Angular
+        run: npm run build --prod
+
+      # Desplegar en Firebase Hosting
+      - name: Deploy to Firebase Hosting / Desplegar en Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          projectId: vitalapp-frontend # tu projectId exacto (míralo en .firebaserc)
+          channelId: live # Canal 'live' = producción
+
+  ## Versión de despliegue
+  create_github_release:
+    runs-on: ubuntu-latest
+    needs: deploy_to_firebase
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token automático para autenticar la acción
+        with:
+          tag_name: 'v${{ github.run_number }}' # Usamos el número de ejecución del workflow como versión
+          release_name: 'Frontend Release v${{ github.run_number }}'
+          body: |
+            Despliegue automático del frontend Angular.
+            Últimos cambios: ${{ github.event.head_commit.message }}
+        # Esta acción crea una nueva release en GitHub con el número de ejecución del workflow como versión.
