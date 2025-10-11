@@ -183,7 +183,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: vitalapp-frontend # tu projectId exacto (míralo en .firebaserc)
+          projectId: vitalapp-frontend-new # projectId exacto (ver en en .firebaserc)
           channelId: live # Canal 'live' = producción
 
   ## Versión de despliegue
