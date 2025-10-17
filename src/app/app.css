@@ -1,0 +1,37 @@
+
+
+/* Elige solo una */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+/* @import '@angular/material/prebuilt-themes/rose-red.css'; */
+/* @import '@angular/material/prebuilt-themes/magenta-violet.css'; */
+/* @import '@angular/material/prebuilt-themes/cyan-orange.css'; */
+
+
+:root {
+  --page-max: 1100px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #fafafa 0%, #f0f4ff 100%);
+}
+
+mat-toolbar .logo {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+mat-toolbar .spacer {
+  flex: 1 1 auto;
+}
+
+.page {
+  max-width: var(--page-max);
+  margin: 24px auto;
+  padding: 0 16px;
+}

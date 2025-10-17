@@ -1,20 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `
-    <!-- Nav mínima para probar -->
-    <nav style="padding:8px; border-bottom:1px solid #ddd">
-      <a routerLink="/auth">Auth</a> |
-      <a routerLink="/citas">Citas</a> |
-      <a routerLink="/resultados">Resultados</a> |
-      <a routerLink="/alertas">Alertas</a> |
-      <a routerLink="/perfil">Perfil</a>
-    </nav>
-    <router-outlet></router-outlet>
-  `
+  imports: [RouterOutlet, CommonModule, MatToolbarModule, MatButtonModule],
+  templateUrl: './app.html',
+  styleUrls: ['./app.css']
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(private router: Router) {}
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('sv_token');
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigateByUrl('/auth');
+  }
+}
+
+

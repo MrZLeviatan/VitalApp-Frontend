@@ -1,1 +1,15 @@
-<router-outlet></router-outlet>
+<mat-toolbar *ngIf="isLoggedIn()" color="primary">
+  <span class="logo">VitalApp</span>
+  <span class="spacer"></span>
+
+  <a mat-button routerLink="/citas">Citas</a>
+  <a mat-button routerLink="/resultados">Resultados</a>
+  <a mat-button routerLink="/alertas">Alertas</a>
+  <a mat-button routerLink="/perfil">Perfil</a>
+
+  <button mat-button color="warn" (click)="logout()">Cerrar sesión</button>
+</mat-toolbar>
+
+<main class="page">
+  <router-outlet></router-outlet>
+</main>
