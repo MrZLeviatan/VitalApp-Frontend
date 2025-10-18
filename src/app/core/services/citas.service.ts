@@ -8,6 +8,8 @@ export class CitasService {
   private base = `${environment.apiBaseUrl}/paciente`;
   constructor(private http: HttpClient) {}
 
+
+
   // --------- CITAS ----------
   registrar(dto: { observaciones: string; idPaciente: number; idMedico: number; idAgenda: number }) {
     return this.http.post<ApiResponse<string>>(`${this.base}/citas/registro`, dto);

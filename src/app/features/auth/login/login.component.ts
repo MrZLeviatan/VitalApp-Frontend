@@ -15,6 +15,11 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './login.component.html', styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
+  ngOnInit() {
+    // al entrar al login, limpiamos cualquier sesión vieja
+    this.auth.logout();
+  }
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private auth = inject(AuthService);
@@ -27,20 +32,19 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(4)]],
   });
 
-  submit(){
-    if(this.form.invalid) return;
-    this.loading = true; this.error = null;
-    this.auth.login(this.form.value as any).subscribe({
-      next: () => {
-          const role = localStorage.getItem('sv_role');
+  submit() {
+  if (this.form.invalid) return;
+  this.loading = true; this.error = null;
 
-          if (role === 'ADMIN')      this.router.navigateByUrl('/admin');
-          else if (role === 'MEDICO')this.router.navigateByUrl('/medico'); // si aún no existe, dejará 404 y luego la creamos
-          else                       this.router.navigateByUrl('/citas');
-      },
-
-      error: () => { this.error = 'Credenciales inválidas'; this.loading = false; }
-    });
+  this.auth.login(this.form.value as any).subscribe({
+    next: () => {
+      const role = localStorage.getItem('sv_role');
+      if (role === 'ADMIN')  this.router.navigateByUrl('/admin',  { replaceUrl: true });
+      else if (role === 'MEDICO') this.router.navigateByUrl('/medico', { replaceUrl: true });
+      else this.router.navigateByUrl('/citas', { replaceUrl: true }); // PACIENTE por defecto
+    },
+    error: () => { this.error = 'Credenciales inválidas'; this.loading = false; }
+  });
   }
-}
 
+}

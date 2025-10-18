@@ -1,0 +1,21 @@
+<mat-card>
+  <h2>Agendar cita</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Especialidad</mat-label>
+      <mat-select formControlName="especialidadId" required>
+        <mat-option *ngFor="let e of especialidades" [value]="e.id">{{ e.nombre }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput type="date" formControlName="fecha" required>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" [disabled]="form.invalid || loading">
+      Agendar
+    </button>
+  </form>
+</mat-card>

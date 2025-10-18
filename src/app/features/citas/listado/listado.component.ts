@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CitasService } from '../../../core/services/citas.service';
+import { Router,RouterModule } from '@angular/router';
+
 
 export interface CitaDto { id: number; especialidad?: string; fecha?: string; estado?: string; }
 
 @Component({
   selector: 'app-citas-listado',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, RouterModule],
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.css']
 })
@@ -21,6 +23,7 @@ export class ListadoComponent implements OnInit {
 
   
   idPaciente = Number(localStorage.getItem('sv_userId')) || 1;
+  private router = inject(Router);
 
   constructor(private citas: CitasService) {}
   ngOnInit(){ this.cargar(); }
@@ -35,5 +38,9 @@ export class ListadoComponent implements OnInit {
 
   cancelar(idCita: number) {
     this.citas.cancelar({ idCita }).subscribe(() => this.cargar());
+  }
+
+  nueva(){
+    this.router.navigateByUrl('/citas/agendar')
   }
 }

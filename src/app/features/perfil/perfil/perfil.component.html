@@ -1,11 +1,30 @@
 <mat-card>
   <h2>Mi Perfil</h2>
+
   <form [formGroup]="form" (ngSubmit)="save()">
-    <mat-form-field class="w-100" appearance="outline"><mat-label>Nombre</mat-label><input matInput formControlName="nombre"></mat-form-field>
-    <mat-form-field class="w-100" appearance="outline"><mat-label>Documento</mat-label><input matInput formControlName="documento"></mat-form-field>
-    <mat-form-field class="w-100" appearance="outline"><mat-label>Correo</mat-label><input matInput formControlName="correo"></mat-form-field>
-    <mat-form-field class="w-100" appearance="outline"><mat-label>Teléfono</mat-label><input matInput formControlName="telefono"></mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre">
+    </mat-form-field>
+
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Documento</mat-label>
+      <input matInput formControlName="documento">
+    </mat-form-field>
+
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Correo</mat-label>
+      <input matInput formControlName="correo" type="email">
+    </mat-form-field>
+
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="telefono">
+    </mat-form-field>
+
     <button mat-raised-button color="primary" [disabled]="form.invalid">Guardar</button>
   </form>
+
+  <div *ngIf="error" style="margin-top:12px;color:#b00020">{{ error }}</div>
 </mat-card>
 
