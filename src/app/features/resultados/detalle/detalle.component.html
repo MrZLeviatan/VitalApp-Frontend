@@ -1,0 +1,16 @@
+<h2>Resultado</h2>
+<div *ngIf="formula as f">
+  <p><strong>Fecha:</strong> {{ f.fecha | date:'medium' }}</p>
+  <p><strong>Descripción:</strong> {{ f.descripcion || '—' }}</p>
+</div>
+
+<h3>Detalles</h3>
+<ul>
+  <li *ngFor="let d of detalles">
+    <strong>{{ d.nombre }}:</strong> {{ d.valor }} {{ d.unidad || '' }}
+  </li>
+</ul>
+
+<div *ngIf="!cargando && (!detalles || detalles.length===0)">
+  No hay detalles para esta fórmula.
+</div>

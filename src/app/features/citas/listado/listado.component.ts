@@ -19,8 +19,8 @@ export class ListadoComponent implements OnInit {
   data: CitaDto[] = [];
   cargando = false;
 
-  // TODO: reemplazar por el id del paciente logueado cuando lo tengas
-  idPaciente = 1;
+  
+  idPaciente = Number(localStorage.getItem('sv_userId')) || 1;
 
   constructor(private citas: CitasService) {}
   ngOnInit(){ this.cargar(); }

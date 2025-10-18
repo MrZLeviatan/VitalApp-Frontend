@@ -1,0 +1,17 @@
+.admin-hero{
+  max-width:1080px;margin:24px auto 8px;padding:8px 8px 0;
+}
+.admin-hero h1{ margin:0 0 6px; font-weight:700; }
+.admin-hero p{ margin:0; opacity:.8; }
+
+.cards{
+  max-width:1080px; margin:12px auto 40px; 
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
+  gap:16px; padding:8px;
+}
+.card mat-card-header{
+  display:flex; align-items:center; gap:8px;
+}
+.card mat-icon{ font-size:22px; width:22px; height:22px; }
+.card .title{ font-weight:600; }
+.card mat-card-actions{ display:flex; justify-content:flex-end; }

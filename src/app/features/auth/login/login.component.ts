@@ -32,11 +32,13 @@ export class LoginComponent {
     this.loading = true; this.error = null;
     this.auth.login(this.form.value as any).subscribe({
       next: () => {
-        const role = localStorage.getItem('sv_role');
-        if (role === 'MEDICO') this.router.navigateByUrl('/medico');
-        else if (role === 'ADMIN') this.router.navigateByUrl('/admin');
-        else this.router.navigateByUrl('/citas');
+          const role = localStorage.getItem('sv_role');
+
+          if (role === 'ADMIN')      this.router.navigateByUrl('/admin');
+          else if (role === 'MEDICO')this.router.navigateByUrl('/medico'); // si aún no existe, dejará 404 y luego la creamos
+          else                       this.router.navigateByUrl('/citas');
       },
+
       error: () => { this.error = 'Credenciales inválidas'; this.loading = false; }
     });
   }

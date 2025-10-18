@@ -1,0 +1,52 @@
+<div class="admin-hero">
+  <h1>Panel de administración</h1>
+  <p>Bienvenido 👋. Accesos rápidos a las secciones clave.</p>
+</div>
+
+<div class="cards">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-icon>event_available</mat-icon>
+      <div class="title">Citas</div>
+    </mat-card-header>
+    <mat-card-content>
+      Revisa las citas por paciente y su estado.
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="go('/citas')">
+        <mat-icon>arrow_forward</mat-icon> Abrir
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-icon>person</mat-icon>
+      <div class="title">Perfil</div>
+    </mat-card-header>
+    <mat-card-content>
+      Ver/editar datos del perfil actual.
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="go('/perfil')">
+        <mat-icon>arrow_forward</mat-icon> Abrir
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-icon>logout</mat-icon>
+      <div class="title">Sesión</div>
+    </mat-card-header>
+    <mat-card-content>
+      Cerrar sesión y volver al inicio de sesión.
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="warn" (click)="cerrarSesion()">
+        <mat-icon>logout</mat-icon> Cerrar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
