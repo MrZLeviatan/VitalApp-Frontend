@@ -1,18 +1,64 @@
-<h2 class="title">Panel del médico</h2>
+<div class="medico-container">
+  <mat-toolbar color="primary" class="toolbar">
+    <span class="toolbar-title">
+      <mat-icon>local_hospital</mat-icon>
+      Portal Médico - VitalApp
+    </span>
+    <span class="spacer"></span>
+    <button mat-button (click)="cerrarSesion()">
+      <mat-icon>exit_to_app</mat-icon>
+      Cerrar Sesión
+    </button>
+  </mat-toolbar>
 
-<div class="cards">
-  <mat-card>
-    <mat-card-title><mat-icon>assignment</mat-icon> Citas</mat-card-title>
-    <mat-card-content>Gestione citas de sus pacientes.</mat-card-content>
-    <div class="actions">
-      <button mat-raised-button color="primary" (click)="go('/citas')">Abrir</button>
+  <div class="content">
+    <h1>Bienvenido, Doctor</h1>
+    <p class="subtitle">Gestiona tus citas y pacientes desde aquí</p>
+
+    <div class="cards-grid">
+      <mat-card class="action-card" (click)="go('/medico/citas')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon citas">event_note</mat-icon>
+          <mat-card-title>Mis Citas</mat-card-title>
+          <mat-card-subtitle>Ver y gestionar citas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Revisa tus citas programadas y actualiza su estado</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="go('/medico/agenda')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon agenda">event</mat-icon>
+          <mat-card-title>Mi Agenda</mat-card-title>
+          <mat-card-subtitle>Ver horarios disponibles</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Consulta tu agenda y horarios de atención</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="go('/perfil')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon perfil">person</mat-icon>
+          <mat-card-title>Mi Perfil</mat-card-title>
+          <mat-card-subtitle>Ver y editar perfil</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Actualiza tu información personal y contraseña</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="go('/formulas')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon formulas">description</mat-icon>
+          <mat-card-title>Fórmulas</mat-card-title>
+          <mat-card-subtitle>Ver fórmulas recetadas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Consulta las fórmulas que has recetado</p>
+        </mat-card-content>
+      </mat-card>
     </div>
-  </mat-card>
-  <mat-card>
-    <mat-card-title><mat-icon>person</mat-icon> Perfil</mat-card-title>
-    <mat-card-content>Editar datos del perfil.</mat-card-content>
-    <div class="actions">
-      <button mat-raised-button color="primary" (click)="go('/perfil')">Abrir</button>
-    </div>
-  </mat-card>
+  </div>
 </div>

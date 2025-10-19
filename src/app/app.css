@@ -31,7 +31,24 @@ mat-toolbar .spacer {
 }
 
 .page {
+  min-height: calc(100vh - 64px);
+}
+
+/* Para vistas con navbar global (paciente) */
+.page:has(~ mat-toolbar) {
   max-width: var(--page-max);
   margin: 24px auto;
   padding: 0 16px;
+}
+
+/* Para vistas sin navbar global (admin, medico) - ocupan full width */
+body:has([class*="admin-container"]),
+body:has([class*="medico-container"]) {
+  margin: 0;
+  padding: 0;
+}
+
+.page:empty {
+  margin: 0;
+  padding: 0;
 }

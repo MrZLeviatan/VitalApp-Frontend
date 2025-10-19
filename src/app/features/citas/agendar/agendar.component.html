@@ -1,21 +1,91 @@
-<mat-card>
-  <h2>Agendar cita</h2>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <div class="header">
+          <button mat-icon-button (click)="volver()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          <h1>Agendar Nueva Cita</h1>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-stepper linear #stepper>
+        <!-- Paso 1: Seleccionar Especialidad -->
+        <mat-step [stepControl]="especialidadForm">
+          <form [formGroup]="especialidadForm">
+            <ng-template matStepLabel>Seleccionar Especialidad</ng-template>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Especialidad</mat-label>
+              <mat-select formControlName="idEspecialidad" (selectionChange)="onEspecialidadChange()">
+                <mat-option *ngFor="let esp of especialidades" [value]="esp.id">
+                  {{ esp.especialidad }}
+                </mat-option>
+              </mat-select>
+              <mat-error>Debe seleccionar una especialidad</mat-error>
+            </mat-form-field>
+            <div class="step-actions">
+              <button mat-raised-button color="primary" matStepperNext [disabled]="especialidadForm.invalid">
+                Siguiente
+              </button>
+            </div>
+          </form>
+        </mat-step>
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field class="w-100" appearance="outline">
-      <mat-label>Especialidad</mat-label>
-      <mat-select formControlName="especialidadId" required>
-        <mat-option *ngFor="let e of especialidades" [value]="e.id">{{ e.nombre }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <!-- Paso 2: Seleccionar Médico -->
+        <mat-step [stepControl]="medicoForm">
+          <form [formGroup]="medicoForm">
+            <ng-template matStepLabel>Seleccionar Médico</ng-template>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Médico</mat-label>
+              <mat-select formControlName="idMedico" (selectionChange)="onMedicoChange()">
+                <mat-option *ngFor="let med of medicos" [value]="med.id">
+                  {{ med.nombre }}
+                </mat-option>
+              </mat-select>
+              <mat-error>Debe seleccionar un médico</mat-error>
+            </mat-form-field>
+            <div class="step-actions">
+              <button mat-button matStepperPrevious>Atrás</button>
+              <button mat-raised-button color="primary" matStepperNext [disabled]="medicoForm.invalid">
+                Siguiente
+              </button>
+            </div>
+          </form>
+        </mat-step>
 
-    <mat-form-field class="w-100" appearance="outline">
-      <mat-label>Fecha</mat-label>
-      <input matInput type="date" formControlName="fecha" required>
-    </mat-form-field>
+        <!-- Paso 3: Seleccionar Horario y Observaciones -->
+        <mat-step [stepControl]="agendaForm">
+          <form [formGroup]="agendaForm">
+            <ng-template matStepLabel>Seleccionar Horario</ng-template>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Horario Disponible</mat-label>
+              <mat-select formControlName="idAgenda">
+                <mat-option *ngFor="let agenda of agendas" [value]="agenda.id">
+                  {{ agenda.fecha }} - {{ agenda.horaInicio }} a {{ agenda.horaFin }}
+                </mat-option>
+              </mat-select>
+              <mat-error>Debe seleccionar un horario</mat-error>
+            </mat-form-field>
 
-    <button mat-raised-button color="primary" [disabled]="form.invalid || loading">
-      Agendar
-    </button>
-  </form>
-</mat-card>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Observaciones</mat-label>
+              <textarea matInput formControlName="observaciones" rows="4" 
+                        placeholder="Describa el motivo de su consulta"></textarea>
+              <mat-error>Las observaciones son requeridas</mat-error>
+            </mat-form-field>
+
+            <div class="step-actions">
+              <button mat-button matStepperPrevious>Atrás</button>
+              <button mat-raised-button color="primary" (click)="agendar()" 
+                      [disabled]="agendaForm.invalid || loading">
+                {{ loading ? 'Agendando...' : 'Agendar Cita' }}
+              </button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,6 +1,6 @@
 .container {
   padding: 24px;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -15,23 +15,24 @@
   font-size: 1.8rem;
 }
 
-.full-width {
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-.step-actions {
-  margin-top: 24px;
+.actions {
+  margin: 20px 0;
   display: flex;
-  gap: 12px;
   justify-content: flex-end;
 }
 
-mat-card {
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+table {
+  width: 100%;
   margin-top: 20px;
 }
 
-mat-stepper {
+mat-card {
   margin-top: 20px;
 }
 

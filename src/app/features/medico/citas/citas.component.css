@@ -1,0 +1,51 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+mat-card {
+  margin-top: 20px;
+}
+
+mat-chip {
+  font-weight: 500;
+}
+
+mat-chip.pendiente {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+mat-chip.revision {
+  background-color: #2196f3 !important;
+  color: #fff !important;
+}
+
+mat-chip.completada {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+}
+

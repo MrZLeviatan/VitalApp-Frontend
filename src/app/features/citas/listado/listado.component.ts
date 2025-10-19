@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { CitasService } from '../../../core/services/citas.service';
 import { Router,RouterModule } from '@angular/router';
 
@@ -12,7 +13,7 @@ export interface CitaDto { id: number; especialidad?: string; fecha?: string; es
 @Component({
   selector: 'app-citas-listado',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, RouterModule],
+  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule, MatCardModule, RouterModule],
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.css']
 })
@@ -31,12 +32,37 @@ export class ListadoComponent implements OnInit {
   cargar() {
     this.cargando = true;
     this.citas.listarPorPaciente(this.idPaciente).subscribe({
-      next: (res: any) => { this.data = res || []; this.cargando = false; },
-      error: () => { this.cargando = false; }
+      next: (res: any) => { 
+        console.log('Respuesta citas:', res);
+        // Intentar múltiples formas de parsear la respuesta
+        let data = [];
+        if (Array.isArray(res)) {
+          data = res;
+        } else if (res?.mensaje) {
+          data = Array.isArray(res.mensaje) ? res.mensaje : [res.mensaje];
+        } else if (res?.data) {
+          data = Array.isArray(res.data) ? res.data : [res.data];
+        } else if (res?.content) {
+          data = Array.isArray(res.content) ? res.content : [];
+        }
+        
+        console.log('Citas parseadas:', data);
+        this.data = data; 
+        this.cargando = false; 
+      },
+      error: (err) => { 
+        console.error('Error al cargar citas:', err);
+        this.cargando = false; 
+      }
     });
   }
 
+  verDetalle(idCita: number) {
+    this.router.navigateByUrl(`/citas/${idCita}`);
+  }
+
   cancelar(idCita: number) {
+    if (!confirm('¿Está seguro de cancelar esta cita?')) return;
     this.citas.cancelar({ idCita }).subscribe(() => this.cargar());
   }
 

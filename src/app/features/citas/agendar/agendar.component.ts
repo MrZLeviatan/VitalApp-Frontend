@@ -1,79 +1,192 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-
-import { CitasService } from '../../../core/services/citas.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { PacienteService } from '../../../core/services/paciente.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { EspecialidadDto, MedicoDto, AgendaDto } from '../../../shared/api.types';
 
 @Component({
+  selector: 'app-agendar-cita',
   standalone: true,
-  selector: 'app-citas-agendar',
   imports: [
-    CommonModule, ReactiveFormsModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatCardModule
+    CommonModule,
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatSnackBarModule
   ],
   templateUrl: './agendar.component.html',
   styleUrls: ['./agendar.component.css']
 })
 export class AgendarComponent implements OnInit {
-
   private fb = inject(FormBuilder);
-  private citas = inject(CitasService);
+  private pacienteService = inject(PacienteService);
   private auth = inject(AuthService);
   private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
+  idPaciente = this.auth.getUserId() || 1;
+  especialidades: EspecialidadDto[] = [];
+  medicos: MedicoDto[] = [];
+  agendas: AgendaDto[] = [];
   loading = false;
-  especialidades: { id: number; nombre: string }[] = [];
 
-  form = this.fb.group({
-    especialidadId: ['', Validators.required],
-    fecha: ['', Validators.required],
+  especialidadForm = this.fb.group({
+    idEspecialidad: ['', Validators.required]
   });
 
-  ngOnInit(): void {
-    this.citas.especialidades().subscribe({
+  medicoForm = this.fb.group({
+    idMedico: ['', Validators.required]
+  });
+
+  agendaForm = this.fb.group({
+    idAgenda: ['', Validators.required],
+    observaciones: ['', Validators.required]
+  });
+
+  ngOnInit() {
+    this.cargarEspecialidades();
+  }
+
+  cargarEspecialidades() {
+    this.loading = true;
+    this.pacienteService.listarEspecialidades().subscribe({
       next: (res: any) => {
-        const src = (res?.data ?? res ?? []) as any[];
-        this.especialidades = src.map((e: any) => ({
-          id: e.idEspecialidad ?? e.especialidadId ?? e.id,
-          nombre: e.nombre ?? e.nombreEspecialidad
-        }));
+        console.log('Respuesta especialidades:', res);
+        // Intentar múltiples formas de parsear la respuesta
+        let data = [];
+        if (Array.isArray(res)) {
+          data = res;
+        } else if (res?.mensaje) {
+          data = Array.isArray(res.mensaje) ? res.mensaje : [res.mensaje];
+        } else if (res?.data) {
+          data = Array.isArray(res.data) ? res.data : [res.data];
+        } else if (res?.content) {
+          data = Array.isArray(res.content) ? res.content : [];
+        }
+        
+        console.log('Especialidades parseadas:', data);
+        this.especialidades = data;
+        this.loading = false;
       },
-      error: () => alert('No se pudieron cargar las especialidades')
+      error: (err) => {
+        console.error('Error al cargar especialidades:', err);
+        this.snackBar.open('Error al cargar especialidades: ' + (err?.error?.mensaje || err?.message || 'Error desconocido'), 'Cerrar', { duration: 5000 });
+        this.loading = false;
+      }
     });
   }
 
-  submit(): void {
-    if (this.form.invalid) return;
+  onEspecialidadChange() {
+    const idEspecialidad = this.especialidadForm.value.idEspecialidad;
+    if (!idEspecialidad) return;
 
-    const pacienteId = this.auth.getUserId();
-    if (!pacienteId) { alert('Sesión inválida'); return; }
+    this.loading = true;
+    this.pacienteService.listarMedicosPorEspecialidad(Number(idEspecialidad)).subscribe({
+      next: (res: any) => {
+        console.log('Respuesta médicos por especialidad:', res);
+        // Intentar múltiples formas de parsear la respuesta
+        let data = [];
+        if (Array.isArray(res)) {
+          data = res;
+        } else if (res?.mensaje) {
+          data = Array.isArray(res.mensaje) ? res.mensaje : [res.mensaje];
+        } else if (res?.data) {
+          data = Array.isArray(res.data) ? res.data : [res.data];
+        } else if (res?.content) {
+          data = Array.isArray(res.content) ? res.content : [];
+        }
+        
+        console.log('Médicos parseados:', data);
+        this.medicos = data;
+        this.loading = false;
+        
+        if (data.length === 0) {
+          this.snackBar.open('No hay médicos disponibles para esta especialidad', 'Cerrar', { duration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar médicos:', err);
+        this.snackBar.open('Error al cargar médicos: ' + (err?.error?.mensaje || err?.message || 'Error desconocido'), 'Cerrar', { duration: 5000 });
+        this.loading = false;
+      }
+    });
+  }
 
-    // OJO: el endpoint /paciente/citas/registro pide estos 4 campos.
-    // Más adelante podemos reemplazar idMedico / idAgenda por selects reales.
+  onMedicoChange() {
+    const idMedico = this.medicoForm.value.idMedico;
+    if (!idMedico) return;
+
+    this.loading = true;
+    this.pacienteService.verAgendaMedico(Number(idMedico)).subscribe({
+      next: (res: any) => {
+        console.log('Respuesta agenda médico:', res);
+        // Intentar múltiples formas de parsear la respuesta
+        let data = [];
+        if (Array.isArray(res)) {
+          data = res;
+        } else if (res?.mensaje) {
+          data = Array.isArray(res.mensaje) ? res.mensaje : [res.mensaje];
+        } else if (res?.data) {
+          data = Array.isArray(res.data) ? res.data : [res.data];
+        } else if (res?.content) {
+          data = Array.isArray(res.content) ? res.content : [];
+        }
+        
+        console.log('Agenda parseada:', data);
+        this.agendas = data;
+        this.loading = false;
+        
+        if (data.length === 0) {
+          this.snackBar.open('No hay agenda disponible para este médico', 'Cerrar', { duration: 3000 });
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar agenda:', err);
+        this.snackBar.open('Error al cargar agenda: ' + (err?.error?.mensaje || err?.message || 'Error desconocido'), 'Cerrar', { duration: 5000 });
+        this.loading = false;
+      }
+    });
+  }
+
+  agendar() {
+    if (this.agendaForm.invalid) return;
+
     const dto = {
-      observaciones: '',
-      idPaciente: pacienteId,
-      idMedico: 1,
-      idAgenda: 1
+      observaciones: this.agendaForm.value.observaciones || '',
+      idPaciente: this.idPaciente,
+      idMedico: Number(this.medicoForm.value.idMedico),
+      idAgenda: Number(this.agendaForm.value.idAgenda)
     };
 
     this.loading = true;
-    this.citas.registrar(dto).subscribe({
-      next: (_r: any) => {
-        alert('Cita agendada');
+    this.pacienteService.registrarCita(dto).subscribe({
+      next: () => {
+        this.snackBar.open('Cita agendada exitosamente', 'Cerrar', { duration: 3000 });
         this.router.navigateByUrl('/citas');
       },
-      error: (e: any) => {
+      error: () => {
+        this.snackBar.open('Error al agendar cita', 'Cerrar', { duration: 3000 });
         this.loading = false;
-        alert('No se pudo agendar: ' + (e?.error?.message ?? 'intenta de nuevo'));
       }
     });
+  }
+
+  volver() {
+    this.router.navigateByUrl('/citas');
   }
 }

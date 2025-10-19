@@ -1,35 +1,88 @@
-<div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
-  <button mat-raised-button color="primary" routerLink="/citas/agendar">Nueva cita</button>
+<div class="container">
+  <mat-card class="main-card">
+    <mat-card-header>
+      <mat-card-title>
+        <div class="header">
+          <div class="header-left">
+            <mat-icon class="header-icon">event_note</mat-icon>
+            <h1>Mis Citas Médicas</h1>
+          </div>
+          <button mat-raised-button color="primary" (click)="nueva()" class="nueva-btn">
+            <mat-icon>add</mat-icon>
+            Nueva Cita
+          </button>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="cargando" class="loading-container">
+        <mat-icon class="loading-icon">hourglass_empty</mat-icon>
+        <p>Cargando citas...</p>
+      </div>
+
+      <div *ngIf="!cargando && data.length === 0" class="empty-state">
+        <mat-icon>event_busy</mat-icon>
+        <h3>No tienes citas programadas</h3>
+        <p>Agenda tu primera cita médica haciendo clic en el botón "Nueva Cita"</p>
+        <button mat-raised-button color="primary" (click)="nueva()">
+          <mat-icon>add</mat-icon>
+          Agendar Cita
+        </button>
+      </div>
+
+      <div class="table-container" *ngIf="!cargando && data.length > 0">
+        <table mat-table [dataSource]="data" class="mat-elevation-z2">
+          <ng-container matColumnDef="especialidad">
+            <th mat-header-cell *matHeaderCellDef>Especialidad</th>
+            <td mat-cell *matCellDef="let cita">
+              <div class="cell-with-icon">
+                <mat-icon class="cell-icon">local_hospital</mat-icon>
+                <span>{{ cita.especialidad || 'No especificada' }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef>Fecha</th>
+            <td mat-cell *matCellDef="let cita">
+              <div class="cell-with-icon">
+                <mat-icon class="cell-icon">calendar_today</mat-icon>
+                <span>{{ cita.fecha || 'Por definir' }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let cita">
+              <span class="estado-badge" [ngClass]="{
+                'pendiente': cita.estado === 'PENDIENTE',
+                'confirmada': cita.estado === 'CONFIRMADA',
+                'completada': cita.estado === 'COMPLETADA',
+                'cancelada': cita.estado === 'CANCELADA'
+              }">
+                {{ cita.estado || 'Pendiente' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let cita">
+              <button mat-icon-button color="primary" (click)="verDetalle(cita.id)" title="Ver detalles">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="cancelar(cita.id)" title="Cancelar cita" *ngIf="cita.estado === 'PENDIENTE'">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="cols"></tr>
+          <tr mat-row *matRowDef="let row; columns: cols;" class="table-row"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
-
-<table mat-table [dataSource]="data" class="mat-elevation-z1 w-100">
-
-  <ng-container matColumnDef="especialidad">
-    <th mat-header-cell *matHeaderCellDef> Especialidad </th>
-    <td mat-cell *matCellDef="let c"> {{ c.especialidad ?? c.nombreEspecialidad }} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="fecha">
-    <th mat-header-cell *matHeaderCellDef> Fecha </th>
-    <td mat-cell *matCellDef="let c"> {{ c.fecha2 ?? c.fecha | date:'mediumDate' }} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="estado">
-    <th mat-header-cell *matHeaderCellDef> Estado </th>
-    <td mat-cell *matCellDef="let c"> {{ c.estado ?? c.estadoCita }} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef> </th>
-    <td mat-cell *matCellDef="let c">
-      <button mat-stroked-button color="warn" (click)="cancelar(c.id)">Cancelar</button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="cols"></tr>
-  <tr mat-row *matRowDef="let row; columns: cols;"></tr>
-</table>
-
-<div *ngIf="!cargando && data?.length === 0" style="margin-top:16px">No hay citas para mostrar.</div>
-
-

@@ -1,0 +1,42 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.actions {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+mat-card {
+  margin-top: 20px;
+}
+
+mat-chip-set {
+  margin: 0;
+}
+

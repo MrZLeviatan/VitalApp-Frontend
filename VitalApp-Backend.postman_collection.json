@@ -1,0 +1,1676 @@
+{
+	"info": {
+		"_postman_id": "vitalapp-backend-api",
+		"name": "VitalApp Backend API",
+		"description": "Colección completa de endpoints para la API de VitalApp - Sistema de gestión médica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"usuario@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Autenticación de usuario. Devuelve un token JWT para usar en las siguientes peticiones."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de autenticación"
+		},
+		{
+			"name": "Admin - EPS",
+			"item": [
+				{
+					"name": "Registrar EPS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"SURA\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/eps/registrar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"eps",
+								"registrar"
+							]
+						},
+						"description": "Registrar una nueva EPS en el sistema. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener EPS por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/eps/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"eps",
+								"1"
+							]
+						},
+						"description": "Obtener información de una EPS por su ID. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar EPS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/eps/listar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"eps",
+								"listar"
+							]
+						},
+						"description": "Listar todas las EPS registradas. Requiere rol ADMIN."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de EPS por parte del administrador"
+		},
+		{
+			"name": "Admin - Especialidades",
+			"item": [
+				{
+					"name": "Registrar Especialidad",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"especialidad\": \"Cardiología\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/especialidad/registro",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"especialidad",
+								"registro"
+							]
+						},
+						"description": "Registrar una nueva especialidad médica. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Especialidad por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/especialidad/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"especialidad",
+								"1"
+							]
+						},
+						"description": "Obtener información de una especialidad por su ID. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Especialidades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/especialidad/listar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"especialidad",
+								"listar"
+							]
+						},
+						"description": "Listar todas las especialidades médicas. Requiere rol ADMIN."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de especialidades médicas por parte del administrador"
+		},
+		{
+			"name": "Admin - Medicamentos",
+			"item": [
+				{
+					"name": "Registrar Medicamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Ibuprofeno 400mg\",\n  \"precio\": 15000.0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/medicamento/registro",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medicamento",
+								"registro"
+							]
+						},
+						"description": "Registrar un nuevo medicamento. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Medicamento por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medicamento/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medicamento",
+								"1"
+							]
+						},
+						"description": "Obtener información de un medicamento por su ID. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Medicamentos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medicamento/listar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medicamento",
+								"listar"
+							]
+						},
+						"description": "Listar todos los medicamentos registrados. Requiere rol ADMIN."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de medicamentos por parte del administrador"
+		},
+		{
+			"name": "Admin - Médicos",
+			"item": [
+				{
+					"name": "Registrar Médico",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Dr. Juan Pérez\",\n  \"user\": {\n    \"email\": \"dr.juanperez@hospital.com\",\n    \"password\": \"password123\"\n  },\n  \"telefonos\": [\n    {\n      \"numero\": \"3001234567\"\n    }\n  ],\n  \"idEspecialidad\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/registro",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"registro"
+							]
+						},
+						"description": "Registrar un nuevo médico en el sistema. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Médico por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"1"
+							]
+						},
+						"description": "Obtener información de un médico por su ID. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Médico por Email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/buscar-email?email=dr.juanperez@hospital.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"buscar-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "dr.juanperez@hospital.com"
+								}
+							]
+						},
+						"description": "Obtener información de un médico por su email. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Médico",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idMedico\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/eliminar-perfil",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"eliminar-perfil"
+							]
+						},
+						"description": "Eliminar (desactivar) un médico del sistema. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Médicos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/listar?pagina=0&size=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "pagina",
+									"value": "0",
+									"description": "Número de página (opcional, default: 0)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Cantidad de elementos por página (opcional, default: 10)"
+								},
+								{
+									"key": "idEspecialidad",
+									"value": "1",
+									"description": "Filtrar por especialidad (opcional)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Listar médicos con paginación y filtros opcionales. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Agenda de Médico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medicos/1/agenda",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medicos",
+								"1",
+								"agenda"
+							]
+						},
+						"description": "Ver la agenda de un médico específico. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Citas de Médico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/1/citas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"1",
+								"citas"
+							]
+						},
+						"description": "Ver todas las citas de un médico. Requiere rol ADMIN."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de médicos por parte del administrador"
+		},
+		{
+			"name": "Admin - Pacientes",
+			"item": [
+				{
+					"name": "Registrar Paciente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"María García\",\n  \"crearUserDto\": {\n    \"email\": \"maria.garcia@email.com\",\n    \"password\": \"password123\"\n  },\n  \"idEps\": 1,\n  \"idCiudad\": 1,\n  \"telefonos\": [\n    {\n      \"numero\": \"3109876543\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/registro",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"registro"
+							]
+						},
+						"description": "Registrar un nuevo paciente en el sistema. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Paciente por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"1"
+							]
+						},
+						"description": "Obtener información de un paciente por su ID. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Paciente por Email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/buscar-email?email=maria.garcia@email.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"buscar-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "maria.garcia@email.com"
+								}
+							]
+						},
+						"description": "Obtener información de un paciente por su email. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Pacientes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/listar?pagina=0&size=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"listar"
+							],
+							"query": [
+								{
+									"key": "pagina",
+									"value": "0",
+									"description": "Número de página (opcional, default: 0)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Cantidad de elementos por página (opcional, default: 10)"
+								},
+								{
+									"key": "idEps",
+									"value": "1",
+									"description": "Filtrar por EPS (opcional)",
+									"disabled": true
+								},
+								{
+									"key": "idCiudad",
+									"value": "1",
+									"description": "Filtrar por ciudad (opcional)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Listar pacientes con paginación y filtros opcionales. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Citas de Paciente",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/1/citas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"1",
+								"citas"
+							]
+						},
+						"description": "Ver todas las citas de un paciente. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Fórmulas de Paciente",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/1/formula",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"1",
+								"formula"
+							]
+						},
+						"description": "Ver todas las fórmulas médicas de un paciente. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Fórmula Específica",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/formula/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"formula",
+								"1"
+							]
+						},
+						"description": "Ver una fórmula específica por ID. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Detalles de Fórmula",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/paciente/formula/1/detalles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"paciente",
+								"formula",
+								"1",
+								"detalles"
+							]
+						},
+						"description": "Ver los detalles (medicamentos) de una fórmula. Requiere rol ADMIN."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de pacientes por parte del administrador"
+		},
+		{
+			"name": "Médico - Perfil",
+			"item": [
+				{
+					"name": "Ver Perfil por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/medico/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"1"
+							]
+						},
+						"description": "Ver el perfil del médico por ID. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Perfil por Email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/medico/buscar-email?email=dr.juanperez@hospital.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"buscar-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "dr.juanperez@hospital.com"
+								}
+							]
+						},
+						"description": "Ver el perfil del médico por email. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Perfil",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"password\": \"password123\",\n  \"nombre\": \"Dr. Juan Carlos Pérez\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/medico/editar-perfil",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"editar-perfil"
+							]
+						},
+						"description": "Editar el perfil del médico. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Email",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"emailNuevo\": \"nuevo.email@hospital.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/medico/editar-email",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"editar-email"
+							]
+						},
+						"description": "Cambiar el email del médico. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Contraseña",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"antiguoPassword\": \"password123\",\n  \"nuevoPassword\": \"newpassword456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/medico/editar-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"editar-password"
+							]
+						},
+						"description": "Cambiar la contraseña del médico. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Mi Agenda",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/medico/1/agenda",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"1",
+								"agenda"
+							]
+						},
+						"description": "Ver la agenda del médico. Requiere rol MEDICO."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión del perfil del médico"
+		},
+		{
+			"name": "Médico - Citas",
+			"item": [
+				{
+					"name": "Ver Mis Citas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/medico/1/citas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"1",
+								"citas"
+							]
+						},
+						"description": "Ver todas las citas del médico. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Cita por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/medico/citas/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"citas",
+								"1"
+							]
+						},
+						"description": "Ver una cita específica por ID. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Poner Cita en Revisión",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCita\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/medico/citas/revision",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"citas",
+								"revision"
+							]
+						},
+						"description": "Cambiar el estado de una cita a EN_REVISION. Requiere rol MEDICO."
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Fórmula",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPaciente\": 1,\n  \"idCita\": 1,\n  \"detallesFormula\": [\n    {\n      \"cantidad\": 1,\n      \"observaciones\": \"Tomar cada 8 horas\",\n      \"dosis\": \"400mg\",\n      \"idMedicamento\": 1\n    },\n    {\n      \"cantidad\": 2,\n      \"observaciones\": \"Tomar cada 12 horas con alimentos\",\n      \"dosis\": \"500mg\",\n      \"idMedicamento\": 2\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/medico/cita/formula/registro",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"medico",
+								"cita",
+								"formula",
+								"registro"
+							]
+						},
+						"description": "Registrar una fórmula médica para un paciente. Requiere rol MEDICO."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de citas del médico"
+		},
+		{
+			"name": "Paciente - Perfil",
+			"item": [
+				{
+					"name": "Ver Perfil por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"1"
+							]
+						},
+						"description": "Ver el perfil del paciente por ID. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Perfil por Email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/buscar-email?email=maria.garcia@email.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"buscar-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "maria.garcia@email.com"
+								}
+							]
+						},
+						"description": "Ver el perfil del paciente por email. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Perfil",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"nombre\": \"María Isabel García\",\n  \"idCiudad\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paciente/editar-perfil",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"editar-perfil"
+							]
+						},
+						"description": "Editar el perfil del paciente. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Email",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"emailNuevo\": \"nuevo.email@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paciente/editar-email",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"editar-email"
+							]
+						},
+						"description": "Cambiar el email del paciente. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Contraseña",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"antiguoPassword\": \"password123\",\n  \"nuevoPassword\": \"newpassword456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paciente/editar-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"editar-password"
+							]
+						},
+						"description": "Cambiar la contraseña del paciente. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Perfil",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPaciente\": 1,\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paciente/eliminar-perfil",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"eliminar-perfil"
+							]
+						},
+						"description": "Eliminar (desactivar) la cuenta del paciente. Requiere rol PACIENTE."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión del perfil del paciente"
+		},
+		{
+			"name": "Paciente - Citas",
+			"item": [
+				{
+					"name": "Registrar Cita",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"observaciones\": \"Dolor de cabeza persistente\",\n  \"idPaciente\": 1,\n  \"idMedico\": 1,\n  \"idAgenda\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paciente/citas/registro",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"citas",
+								"registro"
+							]
+						},
+						"description": "Agendar una nueva cita médica. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Mis Citas Pendientes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/1/citas/pendientes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"1",
+								"citas",
+								"pendientes"
+							]
+						},
+						"description": "Ver las citas pendientes del paciente. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Mis Citas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/1/citas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"1",
+								"citas"
+							]
+						},
+						"description": "Ver todas las citas del paciente. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Cita por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/citas/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"citas",
+								"1"
+							]
+						},
+						"description": "Ver una cita específica por ID. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar Cita",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCita\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paciente/citas/cancelar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"citas",
+								"cancelar"
+							]
+						},
+						"description": "Cancelar una cita médica. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Especialidades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/citas/registro/especialidades",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"citas",
+								"registro",
+								"especialidades"
+							]
+						},
+						"description": "Listar todas las especialidades disponibles para agendar cita. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Médicos por Especialidad",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/citas/registro/especialidades/1/medicos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"citas",
+								"registro",
+								"especialidades",
+								"1",
+								"medicos"
+							]
+						},
+						"description": "Listar médicos de una especialidad específica. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Agenda Disponible de Médico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/citas/medicos/1/agenda",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"citas",
+								"medicos",
+								"1",
+								"agenda"
+							]
+						},
+						"description": "Ver la agenda disponible de un médico para agendar cita. Requiere rol PACIENTE."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de citas del paciente"
+		},
+		{
+			"name": "Paciente - Fórmulas",
+			"item": [
+				{
+					"name": "Ver Mis Fórmulas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/1/formula",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"1",
+								"formula"
+							]
+						},
+						"description": "Ver todas las fórmulas médicas del paciente. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Fórmula por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/formula/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"formula",
+								"1"
+							]
+						},
+						"description": "Ver una fórmula específica por ID. Requiere rol PACIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Detalles de Fórmula",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/paciente/formula/1/detalles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paciente",
+								"formula",
+								"1",
+								"detalles"
+							]
+						},
+						"description": "Ver los detalles (medicamentos y dosis) de una fórmula. Requiere rol PACIENTE."
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de fórmulas médicas del paciente"
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						},
+						"description": "Verificar el estado de salud de la aplicación. Endpoint público."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de monitoreo"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+

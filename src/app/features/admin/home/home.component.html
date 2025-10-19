@@ -1,52 +1,93 @@
-<div class="admin-hero">
-  <h1>Panel de administración</h1>
-  <p>Bienvenido 👋. Accesos rápidos a las secciones clave.</p>
-</div>
+<div class="admin-container">
+  <mat-toolbar color="primary" class="toolbar">
+    <span class="toolbar-title">
+      <mat-icon>admin_panel_settings</mat-icon>
+      Panel de Administración - VitalApp
+    </span>
+    <span class="spacer"></span>
+    <button mat-button (click)="cerrarSesion()">
+      <mat-icon>exit_to_app</mat-icon>
+      Cerrar Sesión
+    </button>
+  </mat-toolbar>
 
-<div class="cards">
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-icon>event_available</mat-icon>
-      <div class="title">Citas</div>
-    </mat-card-header>
-    <mat-card-content>
-      Revisa las citas por paciente y su estado.
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button (click)="go('/citas')">
-        <mat-icon>arrow_forward</mat-icon> Abrir
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <div class="content">
+    <h1>Bienvenido, Administrador</h1>
+    <p class="subtitle">Gestiona todos los recursos del sistema desde aquí</p>
 
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-icon>person</mat-icon>
-      <div class="title">Perfil</div>
-    </mat-card-header>
-    <mat-card-content>
-      Ver/editar datos del perfil actual.
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button (click)="go('/perfil')">
-        <mat-icon>arrow_forward</mat-icon> Abrir
-      </button>
-    </mat-card-actions>
-  </mat-card>
+    <div class="cards-grid">
+      <!-- EPS -->
+      <mat-card class="action-card" (click)="go('/admin/eps')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon eps">medical_services</mat-icon>
+          <mat-card-title>EPS</mat-card-title>
+          <mat-card-subtitle>Gestionar EPS</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Registrar, listar y administrar entidades promotoras de salud</p>
+        </mat-card-content>
+      </mat-card>
 
-  <mat-card class="card">
-    <mat-card-header>
-      <mat-icon>logout</mat-icon>
-      <div class="title">Sesión</div>
-    </mat-card-header>
-    <mat-card-content>
-      Cerrar sesión y volver al inicio de sesión.
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="warn" (click)="cerrarSesion()">
-        <mat-icon>logout</mat-icon> Cerrar
-      </button>
-    </mat-card-actions>
-  </mat-card>
+      <!-- Especialidades -->
+      <mat-card class="action-card" (click)="go('/admin/especialidades')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon especialidad">local_hospital</mat-icon>
+          <mat-card-title>Especialidades</mat-card-title>
+          <mat-card-subtitle>Gestionar Especialidades</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Administrar especialidades médicas del sistema</p>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Medicamentos -->
+      <mat-card class="action-card" (click)="go('/admin/medicamentos')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon medicamento">medication</mat-icon>
+          <mat-card-title>Medicamentos</mat-card-title>
+          <mat-card-subtitle>Gestionar Medicamentos</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Registrar y administrar medicamentos disponibles</p>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Médicos -->
+      <mat-card class="action-card" (click)="go('/admin/medicos')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon medico">person_add</mat-icon>
+          <mat-card-title>Médicos</mat-card-title>
+          <mat-card-subtitle>Gestionar Médicos</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Registrar, listar y administrar médicos del sistema</p>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Pacientes -->
+      <mat-card class="action-card" (click)="go('/admin/pacientes')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon paciente">people</mat-icon>
+          <mat-card-title>Pacientes</mat-card-title>
+          <mat-card-subtitle>Gestionar Pacientes</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Registrar, listar y administrar pacientes</p>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Fórmulas -->
+      <mat-card class="action-card" (click)="go('/resultados')">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon formula">description</mat-icon>
+          <mat-card-title>Fórmulas</mat-card-title>
+          <mat-card-subtitle>Ver fórmulas médicas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Consultar todas las fórmulas del sistema</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>
 

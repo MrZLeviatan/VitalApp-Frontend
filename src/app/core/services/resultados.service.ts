@@ -1,27 +1,46 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse, FormulaDto, DetalleFormulaDto } from '../../shared/api.types';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class ResultadosService {
-  private base = `${environment.apiBaseUrl}/admin`;
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
 
-  constructor(private http: HttpClient) {}
+  /** Devuelve '/api/paciente' | '/api/admin' según el rol */
+  private get base(): string {
+    const role = this.auth.getRole() ?? 'PACIENTE';
+    const segment = role === 'ADMIN' ? 'admin' : 'paciente';
+    return `${environment.apiBaseUrl}/${segment}`;
+  }
 
   // todas las fórmulas del paciente
   formulasPaciente(idPaciente: number) {
-    return this.http.get<ApiResponse<FormulaDto[]>>(`${this.base}/paciente/${idPaciente}/formula`);
+    const role = this.auth.getRole();
+    if (role === 'ADMIN') {
+      return this.http.get<ApiResponse<FormulaDto[]>>(`${environment.apiBaseUrl}/admin/paciente/${idPaciente}/formula`);
+    }
+    return this.http.get<ApiResponse<FormulaDto[]>>(`${environment.apiBaseUrl}/paciente/${idPaciente}/formula`);
   }
 
   // una fórmula
   formula(idFormula: number) {
-    return this.http.get<ApiResponse<FormulaDto>>(`${this.base}/paciente/formula/${idFormula}`);
+    const role = this.auth.getRole();
+    if (role === 'ADMIN') {
+      return this.http.get<ApiResponse<FormulaDto>>(`${environment.apiBaseUrl}/admin/paciente/formula/${idFormula}`);
+    }
+    return this.http.get<ApiResponse<FormulaDto>>(`${environment.apiBaseUrl}/paciente/formula/${idFormula}`);
   }
 
   // detalles de la fórmula
   detallesFormula(idFormula: number) {
-    return this.http.get<ApiResponse<DetalleFormulaDto[]>>(`${this.base}/paciente/formula/${idFormula}/detalles`);
+    const role = this.auth.getRole();
+    if (role === 'ADMIN') {
+      return this.http.get<ApiResponse<DetalleFormulaDto[]>>(`${environment.apiBaseUrl}/admin/paciente/formula/${idFormula}/detalles`);
+    }
+    return this.http.get<ApiResponse<DetalleFormulaDto[]>>(`${environment.apiBaseUrl}/paciente/formula/${idFormula}/detalles`);
   }
 }
 

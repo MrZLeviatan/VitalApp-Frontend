@@ -1,25 +1,12 @@
-<mat-toolbar *ngIf="isLoggedIn() && !router.url.startsWith('/auth')" color="primary">
+<mat-toolbar *ngIf="isLoggedIn() && !router.url.startsWith('/auth') && !router.url.startsWith('/admin') && !router.url.startsWith('/medico')" color="primary">
   <span class="logo">VitalApp</span>
   <span class="spacer"></span>
 
   <!-- Paciente -->
   <ng-container *ngIf="isPaciente">
     <a mat-button routerLink="/citas" routerLinkActive="active">Citas</a>
-    <a mat-button routerLink="/resultados" routerLinkActive="active">Resultados</a>
+    <a mat-button routerLink="/formulas" routerLinkActive="active">Fórmulas</a>
     <a mat-button routerLink="/alertas" routerLinkActive="active">Alertas</a>
-    <a mat-button routerLink="/perfil" routerLinkActive="active">Perfil</a>
-  </ng-container>
-
-  <!-- Médico -->
-  <ng-container *ngIf="isMedico">
-    <a mat-button routerLink="/medico" routerLinkActive="active">Inicio</a>
-    <a mat-button routerLink="/citas" routerLinkActive="active">Citas</a>
-    <a mat-button routerLink="/perfil" routerLinkActive="active">Perfil</a>
-  </ng-container>
-
-  <!-- Admin -->
-  <ng-container *ngIf="isAdmin">
-    <a mat-button routerLink="/admin" routerLinkActive="active">Panel</a>
     <a mat-button routerLink="/perfil" routerLinkActive="active">Perfil</a>
   </ng-container>
 

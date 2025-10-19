@@ -1,42 +1,116 @@
-.login-bg {
+.login-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #3f51b5, #1a237e);
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
 }
 
-.login-container {
+.login-card-wrapper {
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
 }
 
 .login-card {
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  border-radius: 10px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
   overflow: hidden;
 }
 
-mat-card-header {
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px 20px 30px;
   text-align: center;
-  display: block;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
-mat-card-title {
-  font-size: 1.4rem;
-  color: #3f51b5;
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-.full {
+.logo-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  background: white;
+  color: #667eea;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+mat-card-content {
+  padding: 30px;
+}
+
+.full-width {
   width: 100%;
-  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-.error {
-  color: #d32f2f;
+mat-form-field {
+  font-size: 16px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f44336;
+  background: #ffebee;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.error-message mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.login-button {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.footer-text {
   text-align: center;
-  margin-top: 10px;
+  color: white;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0.9;
+}
+
+.footer-text mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }
