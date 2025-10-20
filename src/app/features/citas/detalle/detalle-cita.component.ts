@@ -224,10 +224,27 @@ export class DetalleCitaComponent implements OnInit {
     this.loading = true;
     this.pacienteService.verCita(id).subscribe({
       next: (res: any) => {
-        this.cita = res.mensaje || res.data || null;
+        console.log('Respuesta detalle cita:', res);
+        
+        // Parsear respuesta del backend
+        let citaData = res.mensaje || res.data || res;
+        
+        // Mapear campos del backend
+        this.cita = {
+          id: citaData.id || citaData.idCita,
+          fecha: citaData.fecha || citaData.dia || citaData.fechaCita,
+          estado: citaData.estado || citaData.estadoCita || 'PENDIENTE',
+          especialidad: citaData.especialidad || citaData.nombreEspecialidad,
+          medico: citaData.medico, // Usar el objeto médico completo o undefined
+          observaciones: citaData.observaciones || citaData.obs,
+          paciente: citaData.paciente
+        };
+        
+        console.log('Cita mapeada:', this.cita);
         this.loading = false;
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error al cargar cita:', err);
         this.snackBar.open('Error al cargar la cita', 'Cerrar', { duration: 3000 });
         this.loading = false;
         this.volver();

@@ -47,7 +47,16 @@ export class ListadoComponent implements OnInit {
         }
         
         console.log('Citas parseadas:', data);
-        this.data = data; 
+        
+        // Mapear los datos del backend al formato esperado por la tabla
+        this.data = data.map((cita: any) => ({
+          id: cita.id || cita.idCita,
+          especialidad: cita.especialidad || cita.nombreEspecialidad || cita.especialidadMedico || `Médico ID: ${cita.idMedico || 'N/A'}`,
+          fecha: cita.fecha || cita.dia || cita.fechaCita || cita.fechaHora || cita.fechaAgenda || 'Por definir',
+          estado: cita.estadoCita || cita.estado || 'PENDIENTE'
+        }));
+        
+        console.log('Citas mapeadas:', this.data);
         this.cargando = false; 
       },
       error: (err) => { 

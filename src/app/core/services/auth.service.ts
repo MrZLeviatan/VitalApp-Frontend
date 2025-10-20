@@ -28,18 +28,33 @@ private setSession(token: string){
   localStorage.setItem('sv_token', token);
 
   const payload: any = this.decode(token) ?? {};
+  console.log('JWT Payload decodificado:', payload);
 
   // role puede venir como ROLE_X o como 'PACIENTE'/'MEDICO'/'ADMIN'
   const rawRole = payload.rol ?? payload.role ?? payload.roles?.[0] ?? 'PACIENTE';
   const role = String(rawRole).replace(/ROLE_/i, '').toUpperCase();
 
-  // muchos JWT usan 'sub' como email
-  const userId = Number(payload.userId ?? payload.id ?? 0);
-  const email = String(payload.sub ?? payload.email ?? '');
+  // Intentar múltiples campos para userId
+  const userId = Number(
+    payload.userId ?? 
+    payload.id ?? 
+    payload.user_id ?? 
+    payload.idUsuario ?? 
+    payload.idPaciente ??
+    payload.idMedico ??
+    payload.sub ?? 
+    0
+  );
+  
+  // Email puede venir en varios campos
+  const email = String(payload.email ?? payload.sub ?? payload.username ?? '');
+
+  console.log('Datos extraídos del JWT:', { userId, role, email });
 
   localStorage.setItem('sv_role', role);
-  if (userId) localStorage.setItem('sv_userId', String(userId));
-  if (email)  localStorage.setItem('sv_email', email);
+  // Guardar userId incluso si es 0 para debugging
+  localStorage.setItem('sv_userId', String(userId));
+  if (email) localStorage.setItem('sv_email', email);
 }
 
 getEmail(): string | null {

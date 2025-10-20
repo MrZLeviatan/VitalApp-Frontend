@@ -543,6 +543,68 @@
 						"description": "Ver todas las citas de un médico. Requiere rol ADMIN."
 					},
 					"response": []
+				},
+				{
+					"name": "Registrar Horario en Agenda",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idMedico\": 1,\n  \"dia\": \"2025-10-25\",\n  \"horaInicio\": \"08:00:00\",\n  \"horaFin\": \"09:00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/agenda/registro",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"agenda",
+								"registro"
+							]
+						},
+						"description": "Registrar un nuevo horario en la agenda de un médico. Requiere rol ADMIN."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Horario de Agenda",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/admin/medico/agenda/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"medico",
+								"agenda",
+								"5"
+							]
+						},
+						"description": "Eliminar (desactivar) un horario específico de la agenda. No se puede eliminar si tiene una cita asignada. Requiere rol ADMIN."
+					},
+					"response": []
 				}
 			],
 			"description": "Gestión de médicos por parte del administrador"

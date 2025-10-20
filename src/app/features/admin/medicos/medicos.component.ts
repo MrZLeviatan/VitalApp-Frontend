@@ -59,7 +59,7 @@ export class AdminMedicosComponent implements OnInit {
     });
   }
 
-  verAgenda(idMedico: number) {
+  gestionarAgenda(idMedico: number) {
     this.router.navigateByUrl(`/admin/medicos/${idMedico}/agenda`);
   }
 

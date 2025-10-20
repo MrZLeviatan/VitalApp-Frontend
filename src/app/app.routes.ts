@@ -14,6 +14,7 @@ export const routes: Routes = [
   { path: 'admin/medicamentos', canActivate: [roleGuard(['ADMIN'])], loadComponent: () => import('./features/admin/medicamentos/medicamentos.component').then(m => m.AdminMedicamentosComponent) },
   { path: 'admin/medicos', canActivate: [roleGuard(['ADMIN'])], loadComponent: () => import('./features/admin/medicos/medicos.component').then(m => m.AdminMedicosComponent) },
   { path: 'admin/medicos/nuevo', canActivate: [roleGuard(['ADMIN'])], loadComponent: () => import('./features/admin/medicos/registro-medico.component').then(m => m.RegistroMedicoComponent) },
+  { path: 'admin/medicos/:id/agenda', canActivate: [roleGuard(['ADMIN'])], loadComponent: () => import('./features/admin/agenda-medico/agenda-medico.component').then(m => m.AdminAgendaMedicoComponent) },
   { path: 'admin/pacientes', canActivate: [roleGuard(['ADMIN'])], loadComponent: () => import('./features/admin/pacientes/pacientes.component').then(m => m.AdminPacientesComponent) },
   { path: 'admin/pacientes/nuevo', canActivate: [roleGuard(['ADMIN'])], loadComponent: () => import('./features/admin/pacientes/registro-paciente.component').then(m => m.RegistroPacienteComponent) },
 

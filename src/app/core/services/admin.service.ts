@@ -86,6 +86,10 @@ export class AdminService {
     });
   }
 
+  verMedico(idMedico: number) {
+    return this.http.get<ApiResponse<MedicoDto>>(`${this.base}/medico/${idMedico}`);
+  }
+
   listarMedicos(params: ListaMedicosParams = {}) {
     let httpParams = new HttpParams();
     if (params.pagina !== undefined) httpParams = httpParams.set('pagina', params.pagina);
@@ -97,6 +101,21 @@ export class AdminService {
 
   verAgendaMedico(idMedico: number) {
     return this.http.get<ApiResponse<any[]>>(`${this.base}/medicos/${idMedico}/agenda`);
+  }
+
+  // Registrar nueva agenda para un médico
+  registrarAgenda(dto: {
+    idMedico: number;
+    dia: string; // "2025-10-20" (fecha específica)
+    horaInicio: string; // "08:00:00"
+    horaFin: string; // "09:00:00"
+  }) {
+    return this.http.post<ApiResponse<string>>(`${this.base}/medico/agenda/registro`, dto);
+  }
+
+  // Eliminar una agenda específica
+  eliminarAgenda(idAgenda: number) {
+    return this.http.delete<ApiResponse<string>>(`${this.base}/medico/agenda/${idAgenda}`);
   }
 
   verCitasMedico(idMedico: number) {

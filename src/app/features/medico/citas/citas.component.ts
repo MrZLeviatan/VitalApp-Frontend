@@ -51,7 +51,21 @@ export class MedicoCitasComponent implements OnInit {
         }
         
         console.log('Citas parseadas:', data);
-        this.dataSource = data;
+        
+        // Mapear los datos del backend al formato esperado por la tabla
+        this.dataSource = data.map((cita: any) => ({
+          id: cita.id || cita.idCita,
+          paciente: cita.nombrePaciente || `Paciente ID: ${cita.idPaciente || 'N/A'}`,
+          eps: cita.epsPaciente,
+          telefono: cita.telefonoPaciente,
+          fecha: cita.fecha || cita.dia || cita.fechaCita || cita.fechaHora || 'Por definir',
+          horaInicio: cita.horaInicio,
+          horaFin: cita.horaFin,
+          estado: cita.estadoCita || cita.estado || 'PENDIENTE',
+          observaciones: cita.observaciones
+        }));
+        
+        console.log('Citas mapeadas:', this.dataSource);
         this.loading = false;
       },
       error: (err) => {

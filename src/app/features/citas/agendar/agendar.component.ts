@@ -39,7 +39,7 @@ export class AgendarComponent implements OnInit {
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
-  idPaciente = this.auth.getUserId() || 1;
+  idPaciente: number = 0;
   especialidades: EspecialidadDto[] = [];
   medicos: MedicoDto[] = [];
   agendas: AgendaDto[] = [];
@@ -59,6 +59,16 @@ export class AgendarComponent implements OnInit {
   });
 
   ngOnInit() {
+    // Obtener userId del AuthService o localStorage
+    const userId = this.auth.getUserId() || Number(localStorage.getItem('sv_userId')) || 0;
+    
+    if (userId === 0) {
+      console.warn('No se encontró userId en la sesión');
+      this.snackBar.open('Hay un problema con tu sesión. Por favor, vuelve a iniciar sesión.', 'Cerrar', { duration: 5000 });
+      // No redirigir automáticamente, dar chance al usuario
+    }
+    
+    this.idPaciente = userId;
     this.cargarEspecialidades();
   }
 
