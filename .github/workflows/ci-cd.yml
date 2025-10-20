@@ -59,7 +59,7 @@ jobs:
 
       # 5. Construir Angular
       - name: Build Angular app
-        run: npm run build --prod
+        run: npm run build
 
   ## CD: Continua Despliegue - Construcción y despliegue de la imagen Docker
 
@@ -176,7 +176,7 @@ jobs:
 
       # Construir el proyecto Angular
       - name: Build Angular app / Construir la aplicación Angular
-        run: npm run build --prod
+        run: npm run build
 
       # Desplegar en Firebase Hosting
       - name: Deploy to Firebase Hosting / Desplegar en Firebase Hosting
