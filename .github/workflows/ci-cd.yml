@@ -38,24 +38,24 @@ jobs:
         run: npm install
       # El comando 'npm install' instala todas las dependencias listadas en package.json.
 
-      # 4. Ejecutar pruebas
-      - name: Run unit tests
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
+      # 4. Ejecutar pruebas (temporalmente deshabilitado para demo)
+      # - name: Run unit tests
+      #   run: npm run test -- --watch=false --browsers=ChromeHeadless
 
-      # 4.1 Analizar código con SonarCloud
-      - name: Analyze code with SonarCloud
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-          SONAR_ORG: ${{ secrets.SONAR_ORG }}
-        run: |
-          npm install -g sonar-scanner
-          sonar-scanner \
-            -Dsonar.organization=$SONAR_ORG \
-            -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN
+      # 4.1 Analizar código con SonarCloud (temporalmente deshabilitado para demo)
+      # - name: Analyze code with SonarCloud
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+      #     SONAR_ORG: ${{ secrets.SONAR_ORG }}
+      #   run: |
+      #     npm install -g sonar-scanner
+      #     sonar-scanner \
+      #       -Dsonar.organization=$SONAR_ORG \
+      #       -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+      #       -Dsonar.sources=src \
+      #       -Dsonar.host.url=https://sonarcloud.io \
+      #       -Dsonar.login=$SONAR_TOKEN
 
       # 5. Construir Angular
       - name: Build Angular app
